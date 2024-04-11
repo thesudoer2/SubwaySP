@@ -3,33 +3,34 @@
 
 // stream in/out
 #include <iostream>
-#include <fstream>
+
+static const char* program_name;
+extern const char* stations_json;
+
+void usage(FILE* fd)
+{
+    fputs("Usage:\n", fd);
+    fprintf(fd, "\t%s <start_station> <end_station>\n", program_name);
+}
 
 auto main(int argc, char* argv[]) -> int
 {
+    program_name = argv[0];
+
     if (argc != 3)
     {
-        std::cerr << "invalid number of arguments\n";
-        return 1;
-    }
-
-    // taking source and destination stations from command-line arguments
-    std::string_view source { argv[1] }, destination { argv[2] };
-
-    std::ifstream file("res/stations.json", std::ios::in);
-    if (!file)
-    {
-        perror("Couldn't open the file");
+        std::cerr << "invalid number of arguments!\n";
+        usage(stderr);
         exit(EXIT_FAILURE);
     }
 
+    // taking start_station and end_station stations from command-line arguments
+    std::string_view start_station { argv[1] }, end_station { argv[2] };
+
     try
     {
-        std::string file_content { std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>() };
-
-        graph_utils::graph gp(json_utils::json_parser{file_content}());
-
-        auto result = gp.bfs(source, destination);
+        graph_utils::graph gp(json_utils::json_parser{stations_json}());
+        auto result = gp.bfs(start_station, end_station);
         
         for (size_t i { }; i < result.size(); ++i)
         {
