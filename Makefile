@@ -19,16 +19,22 @@ endif
 BUILD_DIR = build
 SRC_DIR = src
 INC_DIR = include
+RES_DIR = res
 
 RAW_NAME = metro_short_path
-BINARY_EXTENSION = .bin
-PROGRAM_NAME = "$(RAW_NAME)$(BINARY_EXTENSION)"
+BINARY_EXTENSION =
+PROGRAM_NAME = $(RAW_NAME)$(BINARY_EXTENSION)
 
-OBJS = main.o       \
-	   jsonparser.o \
-	   graph.o
+# Installation related variables and target
+INSTALL = cp -pPR
+INSTALL_DIR := /usr/local/bin
 
-all: prepare build link
+OBJS = $(BUILD_DIR)/main.o       \
+	   $(BUILD_DIR)/jsonparser.o \
+	   $(BUILD_DIR)/graph.o      \
+	   $(BUILD_DIR)/stations.o
+
+all: prepare build $(BUILD_DIR)/$(PROGRAM_NAME)
 
 # preparing prerequisites before building project
 prepare:
@@ -36,19 +42,31 @@ prepare:
 
 build: $(OBJS)
 
-link: build
-	cd "$(BUILD_DIR)" && $(CC) $(OBJS) $(CXXLDFLAGS) -o $(PROGRAM_NAME)
+$(BUILD_DIR)/$(PROGRAM_NAME): build
+	$(CC) $(OBJS) $(CXXLDFLAGS) -o $(BUILD_DIR)/$(PROGRAM_NAME)
 
-main.o: $(SRC_DIR)/main.cpp
+$(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp
 	$(CC) $(SRC_DIR)/main.cpp -c $(CXXFLAGS) -o $(BUILD_DIR)/main.o
 
-jsonparser.o: $(SRC_DIR)/jsonparser.cpp  $(INC_DIR)/jsonparser.h
+$(BUILD_DIR)/jsonparser.o: $(SRC_DIR)/jsonparser.cpp  $(INC_DIR)/jsonparser.h
 	$(CC) $(SRC_DIR)/jsonparser.cpp -c $(CXXFLAGS) -o $(BUILD_DIR)/jsonparser.o
 
-graph.o: $(SRC_DIR)/graph.cpp $(INC_DIR)/graph.h
+$(BUILD_DIR)/graph.o: $(SRC_DIR)/graph.cpp $(INC_DIR)/graph.h
 	$(CC) $(SRC_DIR)/graph.cpp -c $(CXXFLAGS) -o $(BUILD_DIR)/graph.o
+
+$(BUILD_DIR)/stations.o: $(SRC_DIR)/stations.cpp
+	$(CC) $(SRC_DIR)/stations.cpp -c $(CXXFLAGS) -o $(BUILD_DIR)/stations.o
+
+install: all
+	mkdir -vp $(INSTALL_DIR)
+	$(INSTALL) $(BUILD_DIR)/$(PROGRAM_NAME) $(INSTALL_DIR)
+	echo "PATH=\"\$${PATH}:$(INS_BIN_DIR)\"" >> /etc/bash.bashrc
+
+uninstall:
+	@/bin/rm -rfv "$(INSTALL_DIR)/$(PROGRAM_NAME)"
+	@sed -i "/PATH=.*:\/usr\/local\/metrosp\/bin/d" /etc/bash.bashrc
 
 clean:
 	@/bin/rm -rfv $(BUILD_DIR)/*
 
-.PHONY: all prepare build link clean
+.PHONY: all prepare build $(BUILD_DIR)/$(PROGRAM_NAME) clean install uninstall
