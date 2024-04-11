@@ -1,3 +1,5 @@
+const char* stations_json = \
+R"--(
 {
 	"Tajrish": {
 		"property": {
@@ -3879,3 +3881,4 @@
 		]
 	}
 }
+)--";
