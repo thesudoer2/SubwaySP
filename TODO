@@ -1,0 +1,6 @@
+1. list subway stations that are loaded
+2. more reasonable error handling on invalid stations name
+3. checking existence of the used commands inside "configure" script
+4. logging for "configure" script
+5. profiling program for checking time complexity (it should be O(V + E) for BFS algo) and ...
+6. TUI or GUI for better user experience
