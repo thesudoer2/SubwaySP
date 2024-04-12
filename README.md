@@ -19,6 +19,7 @@ To build project with debug information, you should export "BUILD_TYPE=Debug" va
     $ export BUILD_TYPE=Debug ; make -j
 
 _Note_: If you have build project in Release mode and now you want to build it in Debug mode, you should run `make clean` command at first and then run the above command.
+
 _Note_: If you have build project in Debug mode and now you want to build it in Release mode, you should unset BUILD_TYPE variable by `unset BUILD_TYPE` command and then clean the project by `make clean` command and finally you can run `make -j` to build it in Release mode.
 
 Running Subwaysp
