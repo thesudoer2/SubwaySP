@@ -21,7 +21,7 @@ SRC_DIR = src
 INC_DIR = include
 RES_DIR = res
 
-RAW_NAME = subway_short_path
+RAW_NAME = subwaysp
 BINARY_EXTENSION =
 PROGRAM_NAME = $(RAW_NAME)$(BINARY_EXTENSION)
 
@@ -60,11 +60,9 @@ $(BUILD_DIR)/stations.o: $(SRC_DIR)/stations.cpp
 install: all
 	mkdir -vp $(INSTALL_DIR)
 	$(INSTALL) $(BUILD_DIR)/$(PROGRAM_NAME) $(INSTALL_DIR)
-	echo "PATH=\"\$${PATH}:$(INS_BIN_DIR)\"" >> /etc/bash.bashrc
 
 uninstall:
 	@/bin/rm -rfv "$(INSTALL_DIR)/$(PROGRAM_NAME)"
-	@sed -i "/PATH=.*:\/usr\/local\/subwaysp\/bin/d" /etc/bash.bashrc
 
 clean:
 	@/bin/rm -rfv $(BUILD_DIR)/*
