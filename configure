@@ -1,0 +1,24 @@
+#!/usr/bin/bash
+
+IFS=$'\n'
+
+stations=$(cat res/stations.json)
+
+# stations json file
+stations_json_file="res/stations.json"
+
+# final source file path
+source_file_name="src/stations.cpp"
+
+cat > $source_file_name << __EOF
+/* auto generated source file */
+
+const char* stations_json = \\
+R"--(
+__EOF
+
+cat "$stations_json_file" >> "$source_file_name"
+
+cat >> $source_file_name << __EOF
+)--";
+__EOF
