@@ -21,7 +21,7 @@ SRC_DIR = src
 INC_DIR = include
 RES_DIR = res
 
-RAW_NAME = metro_short_path
+RAW_NAME = subway_short_path
 BINARY_EXTENSION =
 PROGRAM_NAME = $(RAW_NAME)$(BINARY_EXTENSION)
 
@@ -64,7 +64,7 @@ install: all
 
 uninstall:
 	@/bin/rm -rfv "$(INSTALL_DIR)/$(PROGRAM_NAME)"
-	@sed -i "/PATH=.*:\/usr\/local\/metrosp\/bin/d" /etc/bash.bashrc
+	@sed -i "/PATH=.*:\/usr\/local\/subwaysp\/bin/d" /etc/bash.bashrc
 
 clean:
 	@/bin/rm -rfv $(BUILD_DIR)/*
