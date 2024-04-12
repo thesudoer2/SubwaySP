@@ -50,7 +50,7 @@ Adapt With Any Subway System
 
 If you want to use subwaysp prgoram to calculate the shortest path of your arbitrary subway system, you must delete res/stations.json and use your json of stations instead.
 
-_Note_: Structure of Json file (for stations) must as follows (it's just a sample don't rely on :)):
+_Note_: Structure of Json file (for stations) must be as follows (it's just a sample don't rely on :) ):
 
 ```json
 {
